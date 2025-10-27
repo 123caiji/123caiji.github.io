@@ -1,0 +1,38 @@
+{
+  "name": "academic-homepage",
+  "version": "1.0.0",
+  "description": "一个现代化、响应式的学术个人主页模板",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000 --open=/index.html",
+    "build": "echo 'No build process needed for static site'",
+    "lint": "echo 'No linting configured'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "academic",
+    "homepage",
+    "portfolio",
+    "research",
+    "responsive",
+    "modern"
+  ],
+  "author": "龙天彪",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/123caiji/123caiji.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/123caiji/123caiji.github.io/issues"
+  },
+  "homepage": "https://123caiji.github.io",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

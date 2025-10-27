@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术博客 - 龙天彪</title>
+    <meta name="description" content="龙天彪的技术博客，分享物联网、嵌入式开发、编程技术等学习心得和项目经验">
+    <meta name="keywords" content="技术博客,物联网,嵌入式开发,编程,学习心得,龙天彪">
+    <meta name="author" content="龙天彪">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="技术博客 - 龙天彪">
+    <meta property="og:description" content="龙天彪的技术博客，分享物联网和嵌入式开发经验">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://123caiji.github.io/blog.html">
+    <meta property="og:image" content="https://123caiji.github.io/assets/images/avatar/avatar.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/avatar/avatar.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Prism.js for code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .blog-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        
+        .blog-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .blog-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .blog-card {
+            background: var(--bg-primary);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+        }
+        
+        .blog-image {
+            height: 200px;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+        }
+        
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .blog-category {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .blog-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .blog-read-more {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .blog-read-more:hover {
+            color: var(--accent-hover);
+        }
+        
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-home:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        
+        .search-box {
+            max-width: 500px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .blog-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-filters {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-to-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回首页按钮 -->
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-arrow-left"></i> 返回首页
+    </a>
+
+    <!-- 博客标题 -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1>技术博客</h1>
+            <p>分享我在物联网工程领域的学习心得、项目经验和编程技巧</p>
+        </div>
+    </section>
+
+    <!-- 搜索和筛选 -->
+    <section class="container">
+        <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="搜索文章..." id="search-input">
+        </div>
+        
+        <div class="blog-filters">
+            <button class="filter-btn active" data-filter="all">全部文章</button>
+            <button class="filter-btn" data-filter="iot">物联网</button>
+            <button class="filter-btn" data-filter="embedded">嵌入式</button>
+            <button class="filter-btn" data-filter="programming">编程</button>
+            <button class="filter-btn" data-filter="tutorial">教程</button>
+        </div>
+
+        <!-- 博客文章网格 -->
+        <div class="blog-grid" id="blog-grid">
+            <!-- 文章1 -->
+            <article class="blog-card" data-category="iot embedded">
+                <div class="blog-image">
+                    <img src="assets/images/blog/arduino-sensors.jpg" alt="Arduino传感器应用" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-microchip"></i>
+                        <p>Arduino传感器</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">物联网</span>
+                        <span><i class="fas fa-calendar"></i> 2025年1月15日</span>
+                        <span><i class="fas fa-clock"></i> 5分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">Arduino传感器应用实践指南</h3>
+                    <p class="blog-excerpt">
+                        详细介绍Arduino平台常用传感器的使用方法，包括温湿度传感器、光照传感器、超声波传感器等，
+                        结合实际项目案例，分享传感器数据采集和处理的技巧。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Arduino</span>
+                        <span class="blog-tag">传感器</span>
+                        <span class="blog-tag">物联网</span>
+                        <span class="blog-tag">教程</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 文章2 -->
+            <article class="blog-card" data-category="embedded programming">
+                <div class="blog-image">
+                    <img src="assets/images/blog/stm32-development.jpg" alt="STM32开发入门" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-code"></i>
+                        <p>STM32开发</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">嵌入式</span>
+                        <span><i class="fas fa-calendar"></i> 2025年1月10日</span>
+                        <span><i class="fas fa-clock"></i> 8分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">STM32开发环境搭建与入门</h3>
+                    <p class="blog-excerpt">
+                        从零开始学习STM32微控制器开发，包括开发环境搭建、项目创建、GPIO配置、
+                        中断处理等基础知识，适合初学者快速上手。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">STM32</span>
+                        <span class="blog-tag">嵌入式</span>
+                        <span class="blog-tag">C语言</span>
+                        <span class="blog-tag">入门</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 文章3 -->
+            <article class="blog-card" data-category="iot programming">
+                <div class="blog-image">
+                    <img src="assets/images/blog/mqtt-protocol.jpg" alt="MQTT协议详解" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-wifi"></i>
+                        <p>MQTT协议</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">物联网</span>
+                        <span><i class="fas fa-calendar"></i> 2025年1月5日</span>
+                        <span><i class="fas fa-clock"></i> 6分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">MQTT协议在物联网中的应用</h3>
+                    <p class="blog-excerpt">
+                        深入解析MQTT协议的工作原理，介绍在物联网项目中的实际应用，
+                        包括消息发布订阅、QoS等级、遗嘱消息等高级特性。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">MQTT</span>
+                        <span class="blog-tag">物联网</span>
+                        <span class="blog-tag">协议</span>
+                        <span class="blog-tag">通信</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 文章4 -->
+            <article class="blog-card" data-category="programming tutorial">
+                <div class="blog-image">
+                    <img src="assets/images/blog/web-development.jpg" alt="Web开发技术" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-laptop-code"></i>
+                        <p>Web开发</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">编程</span>
+                        <span><i class="fas fa-calendar"></i> 2024年12月28日</span>
+                        <span><i class="fas fa-clock"></i> 7分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">现代Web开发技术栈选择</h3>
+                    <p class="blog-excerpt">
+                        对比分析当前主流的Web开发技术栈，包括前端框架、后端技术、数据库选择等，
+                        帮助开发者根据项目需求做出合适的技术选择。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Web开发</span>
+                        <span class="blog-tag">技术栈</span>
+                        <span class="blog-tag">前端</span>
+                        <span class="blog-tag">后端</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 文章5 -->
+            <article class="blog-card" data-category="embedded iot">
+                <div class="blog-image">
+                    <img src="assets/images/blog/esp32-wifi.jpg" alt="ESP32 WiFi应用" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-wifi"></i>
+                        <p>ESP32 WiFi</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">嵌入式</span>
+                        <span><i class="fas fa-calendar"></i> 2024年12月20日</span>
+                        <span><i class="fas fa-clock"></i> 6分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">ESP32 WiFi连接与数据传输</h3>
+                    <p class="blog-excerpt">
+                        详细介绍ESP32开发板的WiFi功能使用，包括WiFi连接配置、
+                        数据上传到云端、Web服务器搭建等实用技巧。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">ESP32</span>
+                        <span class="blog-tag">WiFi</span>
+                        <span class="blog-tag">物联网</span>
+                        <span class="blog-tag">Arduino</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 文章6 -->
+            <article class="blog-card" data-category="programming tutorial">
+                <div class="blog-image">
+                    <img src="assets/images/blog/git-workflow.jpg" alt="Git工作流程" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fab fa-git-alt"></i>
+                        <p>Git工作流程</p>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">编程</span>
+                        <span><i class="fas fa-calendar"></i> 2024年12月15日</span>
+                        <span><i class="fas fa-clock"></i> 5分钟阅读</span>
+                    </div>
+                    <h3 class="blog-title">Git版本控制最佳实践</h3>
+                    <p class="blog-excerpt">
+                        分享Git版本控制的使用技巧和最佳实践，包括分支管理、提交规范、
+                        团队协作等，提高开发效率和代码质量。
+                    </p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Git</span>
+                        <span class="blog-tag">版本控制</span>
+                        <span class="blog-tag">协作</span>
+                        <span class="blog-tag">最佳实践</span>
+                    </div>
+                    <a href="#" class="blog-read-more">
+                        阅读全文 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 龙天彪. 保留所有权利.</p>
+                <div class="footer-links">
+                    <a href="mailto:your-email@example.com" title="邮箱">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://github.com/123caiji" title="GitHub" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/your-profile" title="LinkedIn" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com/your-handle" title="Twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script>
+        // 博客筛选和搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const blogCards = document.querySelectorAll('.blog-card');
+            const searchInput = document.getElementById('search-input');
+
+            // 筛选功能
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有活动状态
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // 添加当前按钮的活动状态
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+                    filterBlogs(filter);
+                });
+            });
+
+            // 搜索功能
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filterBlogs('all', searchTerm);
+            });
+
+            function filterBlogs(category, searchTerm = '') {
+                blogCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    const title = card.querySelector('.blog-title').textContent.toLowerCase();
+                    const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.blog-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+
+                    const matchesCategory = category === 'all' || cardCategory.includes(category);
+                    const matchesSearch = !searchTerm || title.includes(searchTerm) || excerpt.includes(searchTerm) || tags.includes(searchTerm);
+
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.6s ease-out';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // 文章卡片点击事件
+            blogCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.blog-read-more')) {
+                        // 这里可以添加文章详情页面的跳转逻辑
+                        console.log('点击文章:', this.querySelector('.blog-title').textContent);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
